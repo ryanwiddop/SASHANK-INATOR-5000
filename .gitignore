@@ -1,5 +1,4 @@
 DWAYNE-INATOR-5000
-dwayne.conf
 injects.conf
 delayed-checks.conf
 dwayne.db
@@ -10,6 +9,5 @@ tags
 *.swp
 submissions/*
 checkfiles/*
-scripts/*
 injects/*
 *.bak

@@ -1,0 +1,20 @@
+---
+  - name: Create the ccsagent directory
+    ansible.builtin.file:
+      path: "{{ target_project_directory }}/ccsagent"
+      state: directory
+
+  - name: Copy the ccsagent python file
+    ansible.builtin.copy:
+      src: ccsagent.py
+      dest: "{{ target_project_directory }}/ccsagent/"
+
+  - name: Copy the ccsagent service
+    ansible.builtin.template:
+      src: ccsagent.service
+      dest: /etc/systemd/system/
+
+  - name: Enable and start the ccsagent service
+    ansible.builtin.shell: | 
+      systemctl enable ccsagent.service
+      systemctl start ccsagent.service

@@ -1,0 +1,14 @@
+[Unit]
+Description=CCS Agent Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/python3 /home/blackteam/agent/ccsagent.py
+WorkingDirectory=/home/blackteam/agent
+Restart=always
+User=blackteam
+Group=blackteam
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
