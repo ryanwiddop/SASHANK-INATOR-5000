@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Metadata and resources
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <title>{{ .event }} {{ .title }}</title>
+    <link rel="stylesheet" href="/assets/pico.min.css">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="icon" type="image/ico" href="/assets/favicon.ico"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <nav class="container">
+        <input class="menu-btn" type="checkbox" id="menu-btn" />
+        <label class="menu-icon" for="menu-btn">
+            <span class="nav-icon" style="font-size: 1.8em">&#x2261;</span>
+        </label>
+        <ul>
+            <li>
+                <a href="/">
+                    <b>{{ .event }}</b> Scoring Engine
+                </a>
+            </li>
+        </ul>
+        <ul class="menu">
+            {{- if not .m.DisableInfoPage -}}
+                <li class="item"><a href="/info">info</a></li>
+            {{- end }}
+            <li class="item"><a href="/scoreboard">scoreboard</a></li>
+            {{ if .user.IsValid -}}
+                {{ if and (not .user.IsAdmin) (not .user.IsRed) }}
+                <li class="item"><a href="/team/{{ .user.ID }}">team</a></li>
+                {{ end -}}
+                {{- if .user.IsRed -}}
+                <li class="item"><a href="/red">red</a></li>
+                {{ else -}}
+                {{- if and .m.EasyPCR (not .m.NoPasswords) -}}
+                <li class="item"><a href="/pcr">passwords</a></li>
+                {{ end -}}
+                <li class="item"><a href="/injects">injects</a></li>
+                {{- end }}
+            {{ end -}}
+            {{- if .m.Persists -}}
+            <li class="item"><a href="/persist">persists</a></li>
+            {{- end -}}
+            {{- if .m.Uptime -}}
+            <li class="item"><a href="/agents">agents</a></li>
+            {{- end -}}
+            {{ if .user.IsAdmin -}}
+            <li class="item">
+                <details role="list" dir="rtl">
+                    <summary aria-haspopup="listbox" role="link">admin panel</summary>
+                    <ul>
+                        <li><a href="/settings">control panel</a></li>
+                        <li><a href="/injects/feed">injects feed</a></li>
+                    </ul>
+                </details>
+            </li>
+            {{ end -}}
+            {{- if .user.IsValid -}}
+                <li class="item"><a href="/logout">{{ .user.Name }} (logout)</a></li>
+            {{- else }}
+                <li class="item"><a href="/login">login</a></li>
+            {{- end }}
+        </ul>
+    </nav>
+<hr>

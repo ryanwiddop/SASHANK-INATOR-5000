@@ -1,0 +1,67 @@
+{{ template "head.html" . }}
+
+{{ $m := .m }}
+{{ $loc := .loc }}
+
+{{ template "refresh.html" }}
+
+<h2>{{ .team.Name }}</h2>
+<p style="text-align: center; font-size: 110%"><i>{{ .check.Name }}</i></p>
+
+{{ if .results }}
+    {{ if .m.Verbose }}
+    <fieldset>
+    <p>
+        External IP: <i>
+            {{ .m.GetFullIP .check.IP .team.IP }}
+        </i>
+        <br>
+        SLA Violations: {{ .sla.Violations }}
+        <br>
+        Current SLA Counter: {{ .sla.Counter }}
+    </p>
+    </fieldset>
+    {{ end }}
+{{ end }}
+
+
+<table class="checks">
+    <th>Round</th>
+    <th>Time</th>
+    <th>Result</th>
+    <th>Error</th>
+    {{ if $m.Verbose }}
+    <th>Debug</th>
+    {{ end }}
+    {{ range $result := .results }}
+    <tr>
+        <td>
+            {{ $result.Round }}
+        </td>
+        <td>
+            {{ ($result.Time.In $loc).Format "03:04:05 PM" }}
+        </td>
+        <td>
+        {{ template "bool.html" .Status }}
+        </td>
+        <td>
+            {{ if $result.Error }}
+                {{ $result.Error }}
+            {{ else }}
+                All good!
+            {{ end }}
+        </td>
+        {{ if $m.Verbose }}
+        <td>
+            {{ if $result.Debug }}
+                {{ $result.Debug }}
+            {{ else }}
+                N/A
+            {{ end }}
+        </td>
+        {{ end }}
+    </tr>
+    {{ end }}
+</table>
+
+{{ template "feet.html" }}

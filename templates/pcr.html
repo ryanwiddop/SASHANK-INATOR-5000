@@ -1,0 +1,140 @@
+{{ template "head.html" . }}
+
+<h2>Password Change Requests</h2>
+
+{{ $m := .m }}
+{{ $user := .user }}
+
+{{ template "error.html" .error }}
+{{ template "message.html" .message }}
+
+{{ $loc := .loc }}
+
+{{ if .m.EasyPCR }}
+<h3>PCR Tutorial</h3>
+
+This is where you can change the passwords that the engine uses to log into your services. If I wanted to change <b>joe</b> and <b>charlie</b>'s passswords for whichever service is currently selected, I would input something like:
+
+<blockquote>
+joe,Password2@<br>
+charlie,Password3#
+</blockquote>
+
+If I wanted to change all the user's passwords (for one service) at a time, I can use <b>all</b>:
+
+<blockquote>
+all,CoolPassword!
+</blockquote>
+
+Any new passwords input will overwrite previous passwords for a service. Newlines and blanks do nothing.
+
+<b>Your submissions will show up at the bottom of this page once the current check round concludes.</b>
+
+You can see your PCR submissions and their status at the <a href="/injects/view/1">injects portal</a>.
+
+<form style="width: 100%;" method="POST">
+    {{ if .user.IsAdmin }}
+    <label>Team:
+        <select name="team">
+            {{ range $team := .m.Team }}
+            <option value="{{ .ID }}">{{ .Name }}</option>
+            {{ end }}
+        </select>
+    </label>
+    {{ end }}
+    <label>Check:
+        <select name="check">
+            {{ range $box := .m.Box }}
+                {{ range $check := .CheckList }}
+                    {{ if not .Anonymous }}
+                    <option value="{{ $check.Name }}">{{ $check.Name }}</option>
+                    {{ end }}
+                {{ end }}
+            {{ end }}
+        </select>
+    </label>
+    <textarea name="pcr" placeholder="username,password"></textarea>
+    <input style="display: block; margin: 0 auto;" type="submit" value="Submit PCR"/>
+</form>
+{{ end }}
+
+<h3>Credential State</h3>
+
+<p style="text-align: center; margin: 1rem 5rem; font-size: 90%">
+<i>This shows the current state of our credential table, for valid users only. If a password for a given user on a given service is here, it will be used. Otherwise, the default password will be used.</i>
+</p>
+
+{{ if .creds }}
+<table>
+    {{ if .user.IsAdmin }}
+    <th>Team</th>
+    {{ end }}
+    <th>Service</th>
+    <th>Creds</th>
+    {{ range $team, $checks := .creds }}
+        {{ range $check, $creds := $checks }}
+            {{ if or $user.IsAdmin (eq $team $user.ID) }}
+            <tr>
+                {{ if $user.IsAdmin }}
+                <td class="teamname">
+                    {{ $team }}
+                </td>
+                {{ end }}
+                <td>
+                    {{ $check }}
+                </td>
+                <td>
+                    {{ range $user, $pass := $creds }}
+                        {{ $user }},{{ $pass }}
+                    {{ end }}
+                </td>
+            </tr>
+            {{ end }}
+        {{ end }}
+    {{ end }}
+</table>
+{{ else }}
+<p style="text-align: center">
+No valid PCRs processed yet :(
+</p>
+{{ end }}
+
+<h3>Submissions</h3>
+
+<p style="text-align: center; margin: 1rem 5rem; font-size: 90%">
+<i>These are your inject submissions that contribute to the credential table. If you submitted an improperly formatted submission, it is not included here. This list DOES include invalid users, if you specified any.</i>
+</p>
+{{ if .submissions }}
+<table>
+    {{ if .user.IsAdmin }}
+    <th>Team</th>
+    {{ end }}
+    <th>Time</th>
+    <th>Name</th>
+    <th>Content</th>
+    {{ range $i := .submissions }}
+        <tr>
+            {{ if $user.IsAdmin }}
+            <td class="teamname">
+                {{ .Team.ID }}
+            </td>
+            {{ end }}
+            <td>
+                {{ (.Time.In $loc).Format "03:04:05 PM" }}
+            </td>
+            <td>
+                {{ .FileName }}
+            </td>
+            <td>
+                {{ .Content }}
+            </td>
+        </tr>
+    {{ end }}
+</table>
+{{ else }}
+<p style="text-align: center">
+No PCRs processed yet :(
+</p>
+{{ end }}
+
+{{ template "feet.html" }}

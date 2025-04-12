@@ -1,0 +1,187 @@
+{{ template "head.html" . -}}
+
+{{- $m := .m -}}
+{{- $loc := .loc -}}
+{{- $team := .team }}
+
+{{ template "refresh.html" }}
+
+<h2>{{ .team.Name }}</h2>
+
+{{ if .records -}}
+
+<h3>Service Uptime</h3>
+
+<figure>
+    <table class="uptime", style="transform: translateX(-42%);">
+        {{- template "boxlist.html" .m -}}
+        {{- $record := index .records 0 -}}
+        <tr>
+            {{ range $box := $m.Box -}}
+            {{- range .CheckList -}}
+            {{- $check := index $record.ResultsMap .Name -}}
+                {{ if eq $check.Name "" }}
+                <td style="background-color: var(--grayt);">
+                {{ else }}
+                <td style="{{ if gt $check.Uptime 89 }}
+                background-color: var(--greent);
+                {{ else if gt $check.Uptime 59 }}
+                background-color: var(--yellowt);
+                {{ else if gt $check.Uptime 39 }}
+                background-color: var(--oranget);
+                {{ else }}
+                background-color: var(--redt);
+                {{ end }}"
+                >
+                {{ end }}
+                <a style="text-decoration: none; color: var(--black);" href="/team/{{ $team.ID }}/{{ $check.Name }}">
+                    {{ if eq $check.Name "" }}
+                    N/A
+                    {{ else }}
+                    {{ $check.Uptime }}%
+                    {{ end }}
+                </a>
+                </td>
+                {{ end }}
+            {{ end }}
+        </tr>
+    </table>
+</figure>
+
+<h3>Service Status (last 10 rounds)</h3>
+
+
+<figure>
+    <table class="checks">
+        <th>#</th>
+        <th>Time</th>
+        {{ template "boxlist.html" .m -}}
+        {{- range $index, $record := .records -}}
+        <tr>
+            <td>
+                {{ if eq $index 0 -}}
+                    <b>Current</b>
+                {{- else -}}
+                    {{ .Round }}
+                {{- end -}}
+            </td>
+            <td>
+                {{ (.Time.In $loc).Format "03:04:05 PM" }}
+            </td>
+
+        {{ range $box := $m.Box -}}
+        {{- range .CheckList -}}
+
+            {{- $check := index $record.ResultsMap .Name -}}
+
+            <td>
+            {{ if ne $check.Name "" }}
+                <a href="/team/{{ $check.TeamID }}/{{ $check.Name }}">
+                {{ template "bool.html" $check.Status }}
+                </a>
+            {{ else }}
+                <a>
+                    <img src="/assets/pending.png"/>
+                </a>
+            {{ end }}
+            </td>
+
+        {{- end -}}
+        {{- end -}}
+        </tr>
+        {{- end -}}
+    </table>
+</figure>
+{{ else }}
+
+<p style="text-align: center">
+Your team doesn't have any completed checks yet :(
+</p>
+
+{{ end }}
+
+<!--
+<h3>Check Service Uptime</h3>
+<p style="text-align: center">
+    <a href="/uptime/{{ $team.ID }}">Visit service uptime.</a>
+</p>
+-->
+{{ if or (not .m.DisableExternalPorts) (.user.IsAdmin) }}
+<h3>External IPs and Ports</h3>
+<figure>
+    <table class="checks">
+
+        {{ template "boxlist.html" .m }}
+
+        <tr>
+        {{ range $box := $m.Box }}
+            {{ range $check := .CheckList }}
+                {{ if eq .Port 0 }}
+                <td>N/A</td>
+                {{ else }}
+                <td><b>{{ .Port }}</b></td>
+                {{ end }}
+            {{ end }}
+        {{ end }}
+        </tr>
+        <tr>
+            {{ range $box := .m.Box }}
+            <td style="text-align: center" colspan="{{ len .CheckList }}">
+                <i>{{ $m.GetFullIP .IP $team.IP }}</i>
+            </td>
+            {{ end }}
+        </tr>
+
+    </table>
+</figure>
+{{ end }}
+
+<h3>SLAs</h3>
+<p style="text-align: center">
+    SLA violations for machine names are due to machine uptime issues, while SLA violations for service names are for consecutive service downtime.
+</p>
+
+{{ $displayedSLA := false }}
+    <table>
+        <th><b>Most Recent SLA Time</b></th>
+        <th><b>Service</b></th>
+        <th><b>Total SLA Count</b></th>
+        {{ range $violation := .sla }}
+            {{ if not .Time.IsZero }}
+            {{ $displayedSLA = true }}
+             <tr>
+                <td>
+                {{ (.Time.In $loc).Format "03:04 PM" }}
+                </td>
+                <td>
+                    {{ .Reason }}
+                </td>
+                <td>
+                    {{ .Violations }}
+                </td>
+            </tr>
+            {{ end }}
+        {{ end }}
+    </table>
+{{ if not $displayedSLA }}
+<p style="text-align: center">
+No SLAs. Nice work!
+</p>
+{{ end }}
+
+{{ if .records }}
+{{ $record := index .records 0 }}
+<fieldset>
+<p>
+    Service points: {{ mul $record.ServicePoints $m.ServicePoints }}
+    <br>
+    Inject points: {{ $record.InjectPoints }}
+    <br>
+    SLA Violations: {{ $record.SlaViolations }}
+    <br>
+    <a href="/">See all teams status</a>
+</p>
+</fieldset>
+{{ end }}
+
+{{ template "feet.html" }}

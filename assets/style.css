@@ -1,0 +1,463 @@
+/* dwayne-inator-5000 custom styles
+–––––––––––––––––––––––––––––––––––––––––– */
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--blue: #6cb2fc;
+		--darkblue: #79a0fc;
+		--orange: #602d00;
+		--oranget: #602d007f;
+		--darkorange: #fcac76;
+		--pink: #fcb3e0;
+		--purple: #be9ffc;
+		--gray: #313131;
+		--grayt: #313131af;
+		--green: #147319;
+		--greent: #1d9a237f;
+		--darkgreen: lightgreen;
+		--darkyellow: goldenrod;
+		--darkred: rgb(234, 91, 91);
+		--red: rgb(224, 12, 12);
+		--redt: #f017177f;
+		--yellow: #887509;
+		--yellowt: #8875097f;
+		--darkgray: #eae8ea;
+		--lightgray: #1f1f1f;
+		--white: #1a1a1d;
+		--black: #fcfcfc;
+		--darkblack: #161310;
+	}
+	.graph-light {
+		display: none;
+	}
+	.graph-dark {
+		display: block;
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	:root {
+		--blue: #469efc;
+		--darkblue: #3547e8;
+		--orange: #fc9550;
+		--oranget: #fc95507f;
+		--darkorange: #602d00;
+		--pink: #f796d2;
+		--purple: #a16fed;
+		--gray: #ddd;
+		--grayt: #ddddddaf;
+		--green: #aea;
+		--greent: #aaeeaa7f;
+		--darkgreen: darkgreen;
+		--darkyellow: goldenrod;
+		--yellow: #f9cd49;
+		--yellowt: #f9cd497f;
+		--darkred: #700;
+		--red: #fb6262;
+		--redt: #fb62627f;
+		--darkgray: #313131;
+		--lightgray: #f6f6f6;
+		--black: #212121;
+		--white: #fcfcfc;
+		--darkblack: #fbf7f4;
+	}
+	.graph-dark {
+		display: none;
+	}
+	.graph-light {
+		display: block;
+	}
+}
+
+:root {
+	font-size: 16px;
+    --font-size: 16px;
+}
+
+html {
+    background-color: var(--white);
+}
+
+body {
+	max-width: 960px;
+	width: 80%;
+	margin: 0.4rem auto;
+	padding: 1.5rem;
+	color: var(--black);
+}
+
+blockquote {
+	font-style: italic;
+	background: var(--lightgray);
+	border-left: 0.3rem solid var(--blue);
+	margin-left: 0;
+	margin-right: 0;
+	border-radius: 0.3rem;
+	padding: 0.8rem;
+}
+
+blockquote p {
+	    margin-bottom: 0;
+}
+
+.no-decoration {
+	    text-decoration: none;
+}
+
+sup, sub {
+	    vertical-align: baseline;
+	        position: relative;
+	            top: -0.4em;
+}
+
+sup a {
+	text-decoration: none;
+}
+
+p {
+    margin-top: 0.8rem;
+}
+
+a, summary, [role=link] {
+	color: var(--darkblue);
+}
+
+code {
+}
+
+hr {
+    color: var(--lightgray);
+    margin: 1rem 0 2rem 0;
+}
+
+
+/* headers and nav
+–––––––––––––––––––––––––––––––––––––––––– */
+
+h2, h3 {
+    text-align: center;
+}
+
+h3 {
+    font-weight: normal;
+}
+
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.nav a {
+    flex-grow: 1;
+}
+
+.nav div {
+	flex-grow: 1;
+	display: block;
+	text-align: right;
+}
+
+.nav > div > a {
+	margin-left: 0.5rem;
+}
+
+hr {
+    border-top: 2px solid var(--darkgray);
+    border-bottom-width: 0px;
+}
+
+/* table styles
+–––––––––––––––––––––––––––––––––––––––––– */
+
+figure {
+    width: 100%;
+    overflow: visible; 
+	display: flex;
+	justify-content: center;
+}
+
+table {
+    margin: 0 auto 1rem auto;
+    text-align: center;
+    border-spacing: 0;
+    border-collapse: 0;
+    background-image: url("/assets/ccdc.png");
+    background-size: 8rem;
+    justify-content: center;
+    display: table;
+    width: 100%;
+}
+
+.graph {
+    margin: 0 auto;
+    max-width: none;
+    background-image: url("/assets/ccdc.png");
+    background-size: 8rem;
+}
+
+.uptime {
+    width: 150%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+table, .graph {
+    background-repeat: repeat;
+}
+table a {
+    display: block;
+    text-decoration: none;
+    text-align: center;
+}
+
+table td {
+    text-align: center;
+}
+
+tbody {
+    display: table;
+    table-layout: fixed;
+	width: 100%;
+}
+
+td, th {
+    font-weight: normal;
+    padding: 0.4rem;
+}
+
+table:is(.checks,.uptime) {
+    font-size: 10px;
+}
+
+table:is(.checks,.uptime) td:not(.teamname), table:is(.checks,.uptime) td:not(.teamname) > * {
+    padding: 0;
+}
+
+th.boxname {
+    text-align: center;
+    width: 20px;
+}
+
+.checks th:not(.teamname) {
+    width: 2em;
+}
+
+.checks th:not(.teamname,.checkname) {
+    width: 4em;
+}
+.uptime th:not(.teamname) {
+    width: 2em;
+}
+
+td a {
+    padding: 0.2em;
+}
+
+th {
+    vertical-align: bottom;
+}
+
+.checkname p {
+	min-width: max-content;
+	white-space: nowrap;
+    text-align: right;
+	transform-origin: bottom right;
+    transform: rotate(30deg);
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.checkname div {
+    display: flex;
+    justify-content: flex-end;
+    width: 50%;
+}
+
+.teamname div {
+    margin-left: auto;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+th.teamname {
+    width: 6em;
+}
+
+td.teamname div > * {
+    font-weight: bold;
+    text-align: right;
+    width: max-content;
+}
+
+table:not(.checks,.uptime) :is(th,td){
+    border-right: 4px solid var(--darkgray);
+    border-left: 2px solid var(--darkgray);
+}
+
+td{
+    border-right: 2px solid var(--darkgray);
+}
+
+td:first-child:not(.teamname) {
+    border-left: 2px solid var(--darkgray);
+}
+
+tr {
+    border-bottom: 2px solid var(--darkgray);
+}
+
+
+tr:nth-child(n+2) a {
+    cursor: pointer;
+}
+
+fieldset {
+    text-align: center;
+    width: 30%;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+td img {
+    width: 1.8em;
+}
+
+.persisted {
+    background-image: url("/assets/bones.png");
+    background-repeat: no-repeat;
+    background-size: 60%;
+    background-position: center;
+    position: relative;
+}
+
+.floating-text {
+	position: absolute;
+	top: 50%;
+	left: 82%;
+	transform: translate(-50%, -50%);
+	margin: 0;
+	padding: 0;
+	font-weight: bold;
+	-webkit-text-stroke: 1px var(--darkblack);
+	text-stroke: 1px var(--darkblack);;
+
+}
+
+
+/* form styles
+–––––––––––––––––––––––––––––––––––––––––– */
+
+table td > form, table td > form input[type=submit] {
+    margin: 0 auto;
+}
+
+input, select {
+    color: var(--black);
+    background-color: var(--white);
+    padding: 0.2rem 0.4rem;
+    margin: 0.1rem auto;
+	border-radius: 0.2rem;
+    white-space: normal;
+}
+
+textarea {
+    width: 100%;
+    padding: 1rem;
+    min-height: 300px;
+    margin-bottom: 0.7rem;
+    background-color: var(--white);
+    color: var(--black);
+    border-radius: 0.2rem;
+}
+
+#injectUpload {
+    text-align: center;
+    display: block;
+    width: 100%;
+    padding: 0.5em;
+    border-radius: 0.3em;
+}
+
+pre {
+    padding: 1.5rem;
+}
+
+hgroup h2, hgroup h3 {
+    text-align: left;
+}
+
+details[role=list] summary::after, li[role=list]>a::after {
+    min-width: 18px;
+}
+
+.grid > * {
+    height: calc(1rem * var(--line-height) + var(--form-element-spacing-vertical) * 2 + var(--border-width) * 2);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+input.danger {
+	background-color: var(--red);
+	border-color: var(--red);
+}
+
+form input[type=submit] {
+    height: max-content;
+}
+
+/* visibility trick
+–––––––––––––––––––––––––––––––––––––––––– */
+html {
+    display: block;
+}
+
+/* nav
+–––––––––––––––––––––––––––––––––––––––––– */
+
+nav.container {
+	background-color: var(gray);
+    /* remove the 'flex-direction' to move menu to the right */
+    flex-direction: row;
+	align-items: center;
+}
+
+nav :is(.menu-btn, .menu-icon) {
+	display: none;
+	cursor: pointer;
+	user-select: none;
+}
+
+@media (width < 48em) {
+	nav.container {
+		flex-wrap: wrap;
+		& .menu-icon {
+			display:block;
+		}
+		& >ul.menu {
+			flex-direction: column;
+			align-items:flex-start;
+			width: 100%;
+			max-height: 0;
+			transition: max-height 0.3s ease-out;
+            margin: 10px 10px;
+            background-color: var(gray);
+            & li {
+                width: 100%;
+            }
+            & a {
+                display: block;
+            }
+        }
+        & .menu-btn:checked ~ .menu {
+            max-height: 100vh;
+            display: block;
+        }
+        & .menu-btn ~ .menu {
+            display: none;
+	}
+}

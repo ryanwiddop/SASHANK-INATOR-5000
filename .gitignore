@@ -1,0 +1,15 @@
+DWAYNE-INATOR-5000
+dwayne.conf
+injects.conf
+delayed-checks.conf
+dwayne.db
+assets/points.png
+assets/points-dark.png
+templates/info.html
+tags
+*.swp
+submissions/*
+checkfiles/*
+scripts/*
+injects/*
+*.bak
